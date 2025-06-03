@@ -257,7 +257,7 @@
     <div id="iframe-container" style="max-width: 600px; margin: 0 auto;">
       <iframe 
         id="contact-iframe"
-        src="https://formsubmit.co/el/mudoha"
+        src="YOUR_FORM_URL_HERE"
         style="width: 100%; height: 500px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);" 
         title="Contact Form"
         allowfullscreen>
@@ -297,26 +297,25 @@
 
   <script>
     // Set your thank you page URL here (the URL the form redirects to after submission)
-    const THANK_YOU_URL = "THANK_YOU_URL_HERE"; // e.g. https://yourwebsite.com/thank-you.html
+    const THANK_YOU_URL = "thanks.html"; // Assuming you host the thank you page as thanks.html
 
     const iframe = document.getElementById('contact-iframe');
     const iframeContainer = document.getElementById('iframe-container');
     const thankYouMsg = document.getElementById('thankyou-message');
 
     // Hide thank you message by default
-    thankYouMsg.classList.remove('visible');
+    thankYouMsg.style.display = 'none';
+    thankYouMsg.style.opacity = 0;
 
     iframe.addEventListener('load', function() {
-      // Check if the iframe has navigated to the thank you page
       try {
-        // For same-origin iframes, you can check iframe.contentWindow.location
         const currentURL = iframe.contentWindow.location.href;
-        if (currentURL.startsWith(THANK_YOU_URL)) {
+        if (currentURL.includes(THANK_YOU_URL)) {
           showThankYou();
         }
       } catch (e) {
-        // For cross-origin iframes, check the iframe's src attribute
-        if (iframe.src.startsWith(THANK_YOU_URL)) {
+        // Cross-origin fallback: check iframe src attribute
+        if (iframe.src.includes(THANK_YOU_URL)) {
           showThankYou();
         }
       }
@@ -324,7 +323,10 @@
 
     function showThankYou() {
       iframeContainer.style.display = 'none';
-      thankYouMsg.classList.add('visible');
+      thankYouMsg.style.display = 'block';
+      setTimeout(() => {
+        thankYouMsg.style.opacity = 1;
+      }, 100);
     }
   </script>
 
