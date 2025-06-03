@@ -90,45 +90,19 @@
     .contact-info strong {
       color: #0077b6;
     }
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #caf0f8;
-      padding: 25px 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    /* Thank you message styles */
+    #thankyou-message {
+      display: none;
+      text-align: center;
+      margin-top: 40px;
+      opacity: 0;
+      transition: opacity 1.2s;
     }
-    form label {
+    #thankyou-message.visible {
       display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #023047;
+      opacity: 1;
     }
-    form input,
-    form textarea {
-      width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 20px;
-      border: 2px solid #0077b6;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-family: inherit;
-      resize: vertical;
-    }
-    form button {
-      background-color: #0077b6;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1.1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-weight: 700;
-    }
-    form button:hover {
-      background-color: #023047;
-    }
+    /* Footer/social/project styles */
     footer {
       text-align: center;
       padding: 20px;
@@ -274,21 +248,26 @@
   </section>
 
   <section>
-  <h2>Let’s Build Something Great Together!</h2>
-  <p class="contact-info">
-    <strong>Email:</strong> <a href="mailto:n1ckswebs1tecreati1ons@gmail.com">n1ckswebs1tecreati1ons@gmail.com</a><br />
-    <strong>Location:</strong> Arlington, TX
-  </p>
+    <h2>Let’s Build Something Great Together!</h2>
+    <p class="contact-info">
+      <strong>Email:</strong> <a href="mailto:n1ckswebs1tecreati1ons@gmail.com">n1ckswebs1tecreati1ons@gmail.com</a><br />
+      <strong>Location:</strong> Arlington, TX
+    </p>
 
-  <div style="max-width: 600px; margin: 0 auto;">
-    <iframe 
-      src="https://formsubmit.co/el/mudoha" 
-      style="width: 100%; height: 500px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);" 
-      title="Contact Form"
-      allowfullscreen>
-    </iframe>
-  </div>
-</section>
+    <div id="iframe-container" style="max-width: 600px; margin: 0 auto;">
+      <iframe 
+        id="contact-iframe"
+        src="YOUR_FORM_URL_HERE"
+        style="width: 100%; height: 500px; border: none; border-radius: 8px; box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);" 
+        title="Contact Form"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div id="thankyou-message">
+      <h3>Thank You For Submitting Your Form!</h3>
+      <p>I Will Respond As Soon As I Can!</p>
+    </div>
+  </section>
 
   <footer>
     <div class="connect-explore">
@@ -315,6 +294,39 @@
     </div>
     <p>&copy; 2025 Nick’s WebCraft. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Set your thank you page URL here (the URL the form redirects to after submission)
+    const THANK_YOU_URL = "THANK_YOU_URL_HERE"; // e.g. https://yourwebsite.com/thank-you.html
+
+    const iframe = document.getElementById('contact-iframe');
+    const iframeContainer = document.getElementById('iframe-container');
+    const thankYouMsg = document.getElementById('thankyou-message');
+
+    // Hide thank you message by default
+    thankYouMsg.classList.remove('visible');
+
+    iframe.addEventListener('load', function() {
+      // Check if the iframe has navigated to the thank you page
+      try {
+        // For same-origin iframes, you can check iframe.contentWindow.location
+        const currentURL = iframe.contentWindow.location.href;
+        if (currentURL.startsWith(THANK_YOU_URL)) {
+          showThankYou();
+        }
+      } catch (e) {
+        // For cross-origin iframes, check the iframe's src attribute
+        if (iframe.src.startsWith(THANK_YOU_URL)) {
+          showThankYou();
+        }
+      }
+    });
+
+    function showThankYou() {
+      iframeContainer.style.display = 'none';
+      thankYouMsg.classList.add('visible');
+    }
+  </script>
 
 </body>
 </html>
